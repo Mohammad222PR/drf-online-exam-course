@@ -34,12 +34,13 @@ ALLOWED_HOSTS = []
 
 THIRD_PARTY_APPS = [
     "rest_framework",
-    "rest_framework_simplejwt",
+    "djoser",
 ]
 
 MY_APPS = [
     "account.apps.AccountConfig",
     "exam.apps.ExamConfig",
+    "authentication.apps.AuthenticationConfig",
 ]
 
 INSTALLED_APPS = [
@@ -162,4 +163,11 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("Bearer",),
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "sub",
+}
+
+
+DJOSER = {
+    "SERIALIZERS": {
+        "user_create": "authentication.serializers.UserCreateSerializer",
+    },
 }
