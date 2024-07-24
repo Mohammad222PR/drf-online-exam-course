@@ -27,6 +27,10 @@ class User(AbstractBaseUser):
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+    @property
+    def full_name(self):
+        return self.first_name + " " + self.last_name
+
     @staticmethod
     def has_perm(perm, obj=None):
         return True
