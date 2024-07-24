@@ -3,11 +3,13 @@ from .choices import USER_ROLE_ADMIN
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, role):
+    def create_user(self, first_name, last_name, email, password, role):
         if not email:
             raise ValueError("کاربران باید یک ایمیل داشته باشند")
 
         user = self.model(
+            first_name=first_name,
+            last_name=last_name,
             email=email,
             role=role,
         )
@@ -15,7 +17,14 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password):
-        user = self.create_user(email=email, password=password, role=USER_ROLE_ADMIN)
+    def create_superuser(self, first_name, last_name, email, password):
+        
+        user = self.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            role=USER_ROLE_ADMIN,
+            password=password,
+        )
         user.save(using=self._db)
         return user
