@@ -30,7 +30,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-THIRD_PARTY_APPS = []
+THIRD_PARTY_APPS = [
+    "rest_framework",
+]
 
 MY_APPS = [
     "account.apps.AccountConfig",
