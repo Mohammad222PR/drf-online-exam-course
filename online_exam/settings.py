@@ -33,7 +33,8 @@ ALLOWED_HOSTS = []
 THIRD_PARTY_APPS = []
 
 MY_APPS = [
-    'account.apps.AccountConfig',
+    "account.apps.AccountConfig",
+    "exam.apps.ExamConfig",
 ]
 
 INSTALLED_APPS = [
@@ -78,7 +79,7 @@ TEMPLATES = [
 WSGI_APPLICATION = "online_exam.wsgi.application"
 
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = "account.User"
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
