@@ -19,8 +19,8 @@ class ExamAdmin(admin.ModelAdmin):
     list_display = ("instructor", "title", "category", "duration", "created")
 
 
-@admin.register(models.ExamStudent)
-class ExamStudentAdmin(admin.ModelAdmin):
+@admin.register(models.Participation)
+class ParticipationAdmin(admin.ModelAdmin):
     list_display = ("exam", "student", "participate_at", "expires_at")
 
 
