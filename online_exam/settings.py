@@ -144,10 +144,11 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_PAGINATION_CLASS": "online_exam.pagination.NeatPagination",
+    "PAGE_SIZE": 100,
 }
 
 # JWT Settings
-
 JWT_SECRET = config("JWT_SECRET")
 JWT_AUDIENCE = config("JWT_AUDIENCE")
 JWT_ISSUER = config("JWT_ISSUER")
