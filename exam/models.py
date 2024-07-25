@@ -38,7 +38,7 @@ class Exam(models.Model):
         return self.title
 
 
-class ExamStudent(models.Model):
+class Participation(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.PROTECT, related_name="students")
     student = models.ForeignKey(
         User, on_delete=models.PROTECT, related_name="students_exams"
