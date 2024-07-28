@@ -9,6 +9,7 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 python-decouple = "*"
 djoser = "*"
+drf-nested-routers = "*"
 
 [dev-packages]
 
