@@ -16,7 +16,7 @@ class RelatedQuestionSerializer(serializers.ModelSerializer):
 
 class RelatedQuestionOptionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Question
+        model = QuestionOption
         fields = ["id", "option_text", "is_correct_answer"]
 
 
