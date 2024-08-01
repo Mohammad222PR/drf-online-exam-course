@@ -5,6 +5,9 @@ class IsInstructor(BasePermission):
     def has_permission(self, request, view):
         return request.user.is_instructor
 
+class IsStudent(BasePermission):
+    def has_permission(self, request, view):
+        return request.user.is_student
 
 class IsInstructorOwner(BasePermission):
     def has_object_permission(self, request, view, obj):
