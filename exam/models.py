@@ -17,11 +17,11 @@ class FavoriteCategory(models.Model):
         User, on_delete=models.CASCADE, related_name="favorite_categories"
     )
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, related_name="favorites"
+        Category, on_delete=models.PROTECT, related_name="favorites"
     )
 
     def __str__(self) -> str:
-        return self.title
+        return self.student.full_name
 
 
 class Exam(models.Model):
@@ -39,9 +39,9 @@ class Exam(models.Model):
 
 
 class Participation(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.PROTECT, related_name="students")
+    exam = models.ForeignKey(Exam, on_delete=models.PROTECT, related_name="participants")
     student = models.ForeignKey(
-        User, on_delete=models.PROTECT, related_name="students_exams"
+        User, on_delete=models.CASCADE, related_name="participants"
     )
     participate_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField()
@@ -55,9 +55,8 @@ class Participation(models.Model):
 
 class Question(models.Model):
     exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name="questions")
-    index = models.PositiveSmallIntegerField()
     question_text = models.TextField()
-    created = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.question_text
@@ -69,19 +68,19 @@ class QuestionOption(models.Model):
     )
     option_text = models.CharField(max_length=500)
     is_correct_answer = models.BooleanField(default=False)
-    created = models.DateTimeField()
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.option_text
 
 
 class Answer(models.Model):
-    student = models.ForeignKey(User, on_delete=models.PROTECT, related_name="answers")
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="answers")
     question = models.ForeignKey(
-        Question, on_delete=models.CASCADE, related_name="answers"
+        Question, on_delete=models.PROTECT, related_name="answers"
     )
     selected_option = models.ForeignKey(
-        QuestionOption, on_delete=models.CASCADE, related_name="answers"
+        QuestionOption, on_delete=models.PROTECT, related_name="answers"
     )
     created = models.DateTimeField(auto_now_add=True)
 
@@ -92,9 +91,9 @@ class Answer(models.Model):
         return self.student.full_name
 
 
-class Result(models.Model):
-    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="results")
-    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name="results")
+class Score(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="scores")
+    exam = models.ForeignKey(Exam, on_delete=models.PROTECT, related_name="scores")
     score = models.PositiveIntegerField()
     created = models.DateTimeField(auto_now_add=True)
 
