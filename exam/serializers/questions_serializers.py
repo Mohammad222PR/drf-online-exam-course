@@ -52,11 +52,12 @@ class QuestionRetrieveSerializer(serializers.ModelSerializer):
         fields = ["id", "exam", "index", "question_text", "options", "created"]
 
 
-class StudentQuestionRetrieveSerializer(QuestionRetrieveSerializer):
-    options = StudentRelatedQuestionOptionSerializer(many=True)
+class QuestionRetrieveSerializer(serializers.ModelSerializer):
+    options = RelatedQuestionOptionSerializer(many=True)
 
-    class Meta(QuestionRetrieveSerializer.Meta):
-        exclude = ["index", "created", "exam"]
+    class Meta:
+        model = Question
+        fields = ["id", "question_text", "options", "created"]
 
 
 class QuestionOptionListSerializer(serializers.ModelSerializer):
