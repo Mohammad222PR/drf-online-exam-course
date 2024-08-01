@@ -113,3 +113,16 @@ class ExamViewSet(viewsets.ModelViewSet):
         serializer = score_serializers.ScoreSerializer(score)
 
         return Response(serializer.data)
+
+    @action(detail=False, methods=["GET"])
+    def favorites(self, request: Request):
+        exam = (
+            self.get_queryset()
+            .filter(category__favorites__student_id=request.user.id)
+            .all()
+        )
+
+        serializer = self.get_serializer(exam, many=True)
+
+        return Response(serializer.data)
+
