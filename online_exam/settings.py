@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 THIRD_PARTY_APPS = [
     "rest_framework",
     "djoser",
+    "debug_toolbar",
 ]
 
 MY_APPS = [
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "online_exam.urls"
@@ -172,3 +174,9 @@ DJOSER = {
         "user_create": "authentication.serializers.UserCreateSerializer",
     },
 }
+
+
+# debug tollbars settings
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
