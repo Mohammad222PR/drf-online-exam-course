@@ -19,7 +19,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class FavoriteCategoryListRetrieveSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
+    category = serializers.CharField(source="category.title")
 
     class Meta:
         model = FavoriteCategory
@@ -37,5 +37,8 @@ class FavoriteCategoryCreateSerializer(serializers.ModelSerializer):
         ]
 
     def create(self, validated_data):
-        validated_data["student_id"] = self.context["user_id"]
-        return super().create(**validated_data)
+
+        return FavoriteCategory.objects.create(
+            **validated_data,
+            student_id=self.context["user_id"],
+        )
