@@ -58,18 +58,28 @@ class QuestionOptionListSerializer(serializers.ModelSerializer):
 
 
 class QuestionCreateUpdateSerializers(serializers.ModelSerializer):
-    options = serializers.ListField(
-        child=QuestionOptionListSerializer(), min_length=2, max_length=10
-    )
+    options = QuestionOptionListSerializer(many=True)
 
     class Meta:
         model = Question
         fields = ["question_text", "options"]
 
     def validate_options(self, options):
-        correct_options_count = filter(
-            lambda option: option.is_correct_answer, options
-        ).count()
+        option_length = len(options)
+
+        if option_length < 2:
+            raise serializers.ValidationError(
+                "هر سوال حداقل باید شامل 2 گزینه داشته باشد"
+            )
+
+        if option_length > 10:
+            raise serializers.ValidationError(
+                "هر سوال حداکثر باید شامل 10 گزینه داشته باشد"
+            )
+
+        correct_options_count = len(
+            list(filter(lambda option: option["is_correct_answer"], options))
+        )
 
         if correct_options_count == 0:
             raise serializers.ValidationError(
@@ -87,11 +97,9 @@ class QuestionCreateUpdateSerializers(serializers.ModelSerializer):
     def create(self, validated_data):
         exam_id = self.context["exam_id"]
         options = validated_data["options"]
-        index = Question.objects.filter(exam_id=exam_id).count() + 1
 
         question = Question.objects.create(
             exam_id=exam_id,
-            index=index,
             question_text=validated_data["question_text"],
         )
 
@@ -99,8 +107,8 @@ class QuestionCreateUpdateSerializers(serializers.ModelSerializer):
             [
                 QuestionOption(
                     question=question,
-                    option_text=option.option_text,
-                    is_correct_answer=option.is_correct_answer,
+                    option_text=option["option_text"],
+                    is_correct_answer=option["is_correct_answer"],
                 )
                 for option in options
             ]
