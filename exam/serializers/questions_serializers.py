@@ -26,6 +26,14 @@ class StudentRelatedQuestionOptionSerializer(serializers.ModelSerializer):
         exclude = ["is_correct_answer", "created", "question"]
 
 
+class StudentQuestionRetrieveSerializer(serializers.ModelSerializer):
+    options = StudentRelatedQuestionOptionSerializer(many=True)
+
+    class Meta:
+        model = Question
+        fields = ["id", "question_text", "options"]
+
+
 
 class QuestionListSerializer(serializers.ModelSerializer):
     exam = RelatedExamSerializer()
