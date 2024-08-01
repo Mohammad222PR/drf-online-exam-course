@@ -51,6 +51,12 @@ class AdminQuestionRetrieveSerializer(serializers.ModelSerializer):
         model = Question
         fields = ["id", "exam", "question_text", "options", "created"]
 
+class QuestionListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Question
+        fields = ["id", "question_text", "created"]
+
 
 class QuestionRetrieveSerializer(serializers.ModelSerializer):
     options = RelatedQuestionOptionSerializer(many=True)
