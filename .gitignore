@@ -189,7 +189,7 @@ cython_debug/
 # Translations
 
 # Django stuff:
-
+settings.json
 # Flask stuff:
 
 # Scrapy stuff:
