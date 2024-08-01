@@ -35,12 +35,12 @@ class StudentQuestionRetrieveSerializer(serializers.ModelSerializer):
 
 
 
-class QuestionListSerializer(serializers.ModelSerializer):
+class AdminQuestionListSerializer(serializers.ModelSerializer):
     exam = RelatedExamSerializer()
 
     class Meta:
         model = Question
-        fields = ["id", "exam", "index", "question_text", "created"]
+        fields = ["id", "exam", "question_text", "created"]
 
 
 class AdminQuestionRetrieveSerializer(serializers.ModelSerializer):
