@@ -20,9 +20,11 @@ class RelatedQuestionOptionSerializer(serializers.ModelSerializer):
         fields = ["id", "option_text", "is_correct_answer"]
 
 
-class StudentRelatedQuestionOptionSerializer(RelatedQuestionOptionSerializer):
-    class Meta(RelatedQuestionOptionSerializer.Meta):
-        exclude = ["is_correct_answer"]
+class StudentRelatedQuestionOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionOption
+        exclude = ["is_correct_answer", "created", "question"]
+
 
 
 class QuestionListSerializer(serializers.ModelSerializer):
