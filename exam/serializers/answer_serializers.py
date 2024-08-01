@@ -7,6 +7,7 @@ from .questions_serializers import (
     RelatedQuestionOptionSerializer,
 )
 from rest_framework.validators import UniqueTogetherValidator
+from django.utils import timezone
 
 
 class AnswerListRetrieveSerializer(serializers.ModelSerializer):
@@ -32,31 +33,34 @@ class AnswerCreateSerializer(serializers.ModelSerializer):
             "question",
             "selected_option",
         ]
-        validators = [
-            UniqueTogetherValidator(
-                queryset=Answer.objects.all(), fields=["student", "question"]
-            )
-        ]
 
     def validate(self, attrs):
-        # question = attrs.get("question")
+        question_id = attrs["question"]
 
-        user_id = self.context["user_id"]
+        student_id = self.context["user_id"]
         exam_id = self.context["exam_id"]
 
-        exam_student = Participation.objects.filter(
-            student_id=user_id, exam_id=exam_id
+        participation = Participation.objects.filter(
+            student_id=student_id, exam_id=exam_id
         ).first()
 
-        # if not exam_student:
-        #     raise serializers.ValidationError("شما دراین آزمون شرکت نکرده اید")
+        if not participation:
+            raise serializers.ValidationError("شما دراین آزمون شرکت نکرده اید")
 
-        # if Answer.objects.filter(question=question, user_id=user_id).exists():
-        #     raise serializers.ValidationError("شما قبلا  به این سوال جواب داده ایده🛑")
+        if timezone.now() >= participation.expires_at:
+            raise serializers.ValidationError("زمان آزمون به اتمام رسیده است")
+
+        answer_exist = Answer.objects.filter(
+            student_id=student_id, question_id=question_id
+        ).exists()
+
+        if answer_exist:
+            raise serializers.ValidationError("شما قبلا به این سوال پاسخ داده اید")
 
         return super().validate(attrs)
 
     def create(self, validated_data):
-        validated_data["user_id"] = self.context["user_id"]
 
-        return super().create(validated_data)
+        return Answer.objects.create(
+            **validated_data, student_id=self.context["user_id"]
+        )
