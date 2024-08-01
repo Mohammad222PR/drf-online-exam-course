@@ -60,13 +60,7 @@ class ExamCreateUpdateSerializer(serializers.ModelSerializer):
         return duration
 
     def create(self, validated_data):
-        validated_data["instructor_id"] = self.context["user_id"]
-        return super().create(**validated_data)
-
-
-class ParticipationCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Participation
-        fields = [
-            "exam",
-        ]
+        return Exam.objects.create(
+            **validated_data,
+            instructor_id=self.context["user_id"],
+        )
