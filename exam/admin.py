@@ -26,7 +26,7 @@ class ParticipationAdmin(admin.ModelAdmin):
 
 @admin.register(models.Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ("exam", "index", "question_text", "created")
+    list_display = ("exam", "question_text", "created")
 
 
 @admin.register(models.QuestionOption)
@@ -39,6 +39,6 @@ class AnswerAdmin(admin.ModelAdmin):
     list_display = ("student", "question", "selected_option", "created")
 
 
-@admin.register(models.Result)
-class ResultAdmin(admin.ModelAdmin):
+@admin.register(models.Score)
+class ScoreAdmin(admin.ModelAdmin):
     list_display = ("student", "exam", "score", "created")
