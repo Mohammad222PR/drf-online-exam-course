@@ -7,7 +7,7 @@ from ..models import (
 )
 
 
-# Related Serializers -------------------------------------------------
+############# Related Serializers #############
 class RelatedQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
@@ -26,6 +26,7 @@ class StudentRelatedQuestionOptionSerializer(serializers.ModelSerializer):
         exclude = ["is_correct_answer", "created", "question"]
 
 
+############ Student serializers #############
 class StudentQuestionRetrieveSerializer(serializers.ModelSerializer):
     options = StudentRelatedQuestionOptionSerializer(many=True)
 
@@ -34,7 +35,7 @@ class StudentQuestionRetrieveSerializer(serializers.ModelSerializer):
         fields = ["id", "question_text", "options"]
 
 
-
+############ Admin serializers #############
 class AdminQuestionListSerializer(serializers.ModelSerializer):
     exam = RelatedExamSerializer()
 
@@ -50,6 +51,9 @@ class AdminQuestionRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ["id", "exam", "question_text", "options", "created"]
+
+############ Global serializers #############
+
 
 class QuestionListSerializer(serializers.ModelSerializer):
 
