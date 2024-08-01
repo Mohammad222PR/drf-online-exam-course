@@ -8,8 +8,15 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import SAFE_METHODS, IsAuthenticated, AllowAny
 from ..serializers import exam_serializers, questions_serializers, score_serializers
+from ..serializers import (
+    exam_serializers,
+    questions_serializers,
+    score_serializers,
+    answer_serializers,
+)
 from authentication.permissions import IsInstructor, IsInstructorOwner, IsStudent
 from ..models import Exam, Participation, Question, Answer, Score
+
 
 class ExamViewSet(viewsets.ModelViewSet):
     queryset = Exam.objects.select_related("instructor", "category").all()
@@ -18,7 +25,7 @@ class ExamViewSet(viewsets.ModelViewSet):
         if self.request.method in SAFE_METHODS:
             return [AllowAny()]
 
-        if self.action in ["next_question", "finish"]:
+        if self.action in ["next_question", "finish", "reply"]:
             return [IsAuthenticated(), IsStudent()]
 
         return [IsAuthenticated(), IsInstructor(), IsInstructorOwner()]
@@ -26,6 +33,9 @@ class ExamViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "retrieve":
             return exam_serializers.ExamRetrieveSerializer
+
+        if self.action == "reply":
+            return answer_serializers.AnswerCreateSerializer
 
         if self.request.method not in SAFE_METHODS:
             return exam_serializers.ExamCreateUpdateSerializer
@@ -126,3 +136,12 @@ class ExamViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
+    @action(detail=True, methods=["POST"])
+    def reply(self, request: Request, pk):
+
+        serializer = answer_serializers.AnswerCreateSerializer(
+            data=request.data, context={"user_id": request.user.id}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
