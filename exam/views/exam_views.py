@@ -45,6 +45,15 @@ class ExamViewSet(viewsets.ModelViewSet):
     def get_serializer_context(self):
         return {"user_id": self.request.user.id}
 
+    def get_throttles(self):
+        if self.action == "reply":
+            self.throttle_scope = "reply"
+        if self.action == "next_question":
+            self.throttle_scope = "next_question"
+        if self.action == "finish":
+            self.throttle_scope = "finish"
+        return super().get_throttles()
+
     @action(detail=True, methods=["GET"])
     def next_question(self, request: Request, pk):
         user_id = request.user.id
@@ -140,7 +149,8 @@ class ExamViewSet(viewsets.ModelViewSet):
     def reply(self, request: Request, pk):
 
         serializer = answer_serializers.AnswerCreateSerializer(
-            data=request.data, context={"user_id": request.user.id}
+            data=request.data,
+            context={"user_id": request.user.id, "exam_id": pk},
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()

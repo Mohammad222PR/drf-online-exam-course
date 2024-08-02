@@ -148,6 +148,16 @@ REST_FRAMEWORK = {
     ),
     "DEFAULT_PAGINATION_CLASS": "online_exam.pagination.NeatPagination",
     "PAGE_SIZE": 100,
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.ScopedRateThrottle",
+        "rest_framework.throttling.AnonRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "100/day",
+        "reply": "100/minute",
+        "next_question": "100/minute",
+        "finish": "10/minute",
+    },
 }
 
 # JWT Settings
