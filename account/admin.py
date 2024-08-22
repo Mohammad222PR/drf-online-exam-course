@@ -19,7 +19,7 @@ class UserAdmin(BaseUserAdmin):
     ]
 
     add_fieldsets = [
-        (None, {"fields": ["email", "first_name", "last_name", "password"]}),
+        (None, {"fields": ["email", "first_name", "last_name", "password1", "password2"]}),
         ("نوع کاربر", {"fields": ["role"]}),
     ]
 
