@@ -2,10 +2,7 @@ from datetime import datetime
 from account.serializers import RelatedUserSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from ..models import (
-    Exam,
-    Participation,
-)
+from ..models import Exam
 
 
 # Global Serializers
