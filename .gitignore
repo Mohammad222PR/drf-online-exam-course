@@ -191,6 +191,8 @@ cython_debug/
 # Django stuff:
 settings.json
 question_data.json
+*.xml
+*.iml
 # Flask stuff:
 
 # Scrapy stuff:
