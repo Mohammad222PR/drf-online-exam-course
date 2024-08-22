@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Score, Participation
+from ..models import Score
 from .exam_serializers import RelatedExamSerializer
 from account.serializers import RelatedUserSerializer
 
@@ -24,11 +24,3 @@ class ScoreSerializer(serializers.ModelSerializer):
 class StudentScoreListRetrieveSerializer(ScoreListRetrieveSerializer):
     class Meta(ScoreListRetrieveSerializer.Meta):
         excludes = ["student"]
-
-
-class ResultListRetrieveSerializer(serializers.ModelSerializer):
-    exam = RelatedExamSerializer()
-
-    class Meta:
-        model = Score
-        fields = ["exam", "score", "created"]
