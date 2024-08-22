@@ -6,7 +6,6 @@ from .questions_serializers import (
     RelatedQuestionSerializer,
     RelatedQuestionOptionSerializer,
 )
-from rest_framework.validators import UniqueTogetherValidator
 from django.utils import timezone
 
 
