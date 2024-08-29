@@ -51,8 +51,7 @@
 - debug toolbar
 - nested routers
 - throttling
-
-- 
+  
 ## :toolbox: Getting Started
 
 ### :bangbang: Prerequisites
