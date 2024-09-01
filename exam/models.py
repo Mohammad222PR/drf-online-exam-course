@@ -105,18 +105,3 @@ class Score(models.Model):
 
     def __str__(self) -> str:
         return self.student.full_name
-
-    def save(self, *args, **kwargs):
-        total_question = Question.objects.filter(exam_id=self.exam_id).count()
-        score = self.score
-
-        if score >= total_question:
-            self.rank = choices.GOLD
-        elif score >= total_question - 2:
-            self.rank = choices.SILVER
-        elif score >= total_question - 5:
-            self.rank = choices.BRONZE
-        elif score == 0:
-            self.rank = choices.UNRANKED
-
-        super().save(*args, **kwargs)
