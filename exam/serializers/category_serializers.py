@@ -36,6 +36,21 @@ class FavoriteCategoryCreateSerializer(serializers.ModelSerializer):
             "category",
         ]
 
+    def validate(self, attrs):
+        category_id = attrs["category"]
+        student_id = self.context["user_id"]
+
+        favorite_category_exists = FavoriteCategory.objects.filter(
+            category_id=category_id, student_id=student_id
+        ).exists()
+
+        if favorite_category_exists:
+            raise serializers.ValidationError(
+                "شما قبلا این دسته بندی رو به دسته بندی های مورد علاقتون اضافه کردید"
+            )
+
+        return super().validate(attrs)
+
     def create(self, validated_data):
 
         return FavoriteCategory.objects.create(
