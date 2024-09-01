@@ -15,6 +15,7 @@ from ..serializers import (
     answer_serializers,
 )
 from authentication.permissions import IsInstructor, IsInstructorOwner, IsStudent
+from .. import choices
 from ..models import Exam, Participation, Question, Answer, Score
 
 
@@ -33,6 +34,9 @@ class ExamViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "retrieve":
             return exam_serializers.ExamRetrieveSerializer
+
+        if self.action == "finish":
+            return score_serializers.ScoreSerializer
 
         if self.action == "reply":
             return answer_serializers.AnswerCreateSerializer
@@ -65,6 +69,15 @@ class ExamViewSet(viewsets.ModelViewSet):
             exam_id=pk,
             defaults={"expires_at": timezone.now() + exam.duration},
         )
+
+        if (
+            not created
+            and Score.objects.filter(exam_id=exam, student_id=user_id).exists()
+        ):
+            return Response(
+                {"detail": "شما قبلا دراین ازمون شرکت کرده اید"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
         if not created and timezone.now() >= participation.expires_at:
             return Response(
@@ -125,8 +138,19 @@ class ExamViewSet(viewsets.ModelViewSet):
             .count()
         )
 
+        total_question = Question.objects.filter(exam_id=pk).count()
+
+        if calculated_score == total_question:
+            rank = choices.GOLD
+        if calculated_score < total_question:
+            rank = choices.SILVER
+        if calculated_score < total_question - 5:
+            rank = choices.BRONZE
+        if calculated_score == 0:
+            rank = choices.UNRANKED
+
         score = Score.objects.create(
-            student_id=student_id, exam_id=pk, score=calculated_score
+            student_id=student_id, exam_id=pk, rank=rank, score=calculated_score
         )
 
         serializer = score_serializers.ScoreSerializer(score)
