@@ -2,6 +2,7 @@ from rest_framework import serializers
 from ..models import Score
 from .exam_serializers import RelatedExamSerializer
 from account.serializers import RelatedUserSerializer
+from django.db import models
 
 
 class ScoreListRetrieveSerializer(serializers.ModelSerializer):
@@ -24,3 +25,11 @@ class ScoreSerializer(serializers.ModelSerializer):
 class StudentScoreListRetrieveSerializer(ScoreListRetrieveSerializer):
     class Meta(ScoreListRetrieveSerializer.Meta):
         excludes = ["student"]
+
+
+class ScoreBoardSerializer(serializers.ModelSerializer):
+    student = RelatedUserSerializer()
+
+    class Meta:
+        model = Score
+        fields = ["student", "rank", "score"]
