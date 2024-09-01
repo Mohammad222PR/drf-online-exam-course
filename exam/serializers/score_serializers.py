@@ -18,8 +18,8 @@ class ScoreSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Score
-        fields = ["score"]
-        read_only_fields = ["score"]
+        fields = ["score", "rank"]
+        read_only_fields = ["score", "rank"]
 
 
 class StudentScoreListRetrieveSerializer(ScoreListRetrieveSerializer):
