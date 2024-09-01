@@ -41,6 +41,7 @@ exam_router.register(r"answers", answer_views.AnswerViewSet, basename="answers")
 
 exam_router.register(r"scores", score_views.ExamScoreViewSet, basename="exam-scores")
 
+exam_router.register(r"scoreboard", score_views.ScoreBoardViewSet, basename="scoreboard")
 
 urlpatterns += router.urls
 
