@@ -41,4 +41,5 @@ class AnswerAdmin(admin.ModelAdmin):
 
 @admin.register(models.Score)
 class ScoreAdmin(admin.ModelAdmin):
-    list_display = ("student", "exam", "score", "created")
+    list_display = ("student", "exam", "score", "rank", "created")
+    readonly_fields = ("rank",)

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from . import choices
 
 User = get_user_model()
 
@@ -39,7 +40,9 @@ class Exam(models.Model):
 
 
 class Participation(models.Model):
-    exam = models.ForeignKey(Exam, on_delete=models.PROTECT, related_name="participants")
+    exam = models.ForeignKey(
+        Exam, on_delete=models.PROTECT, related_name="participants"
+    )
     student = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="participants"
     )
@@ -95,7 +98,25 @@ class Score(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="scores")
     exam = models.ForeignKey(Exam, on_delete=models.PROTECT, related_name="scores")
     score = models.PositiveIntegerField()
+    rank = models.CharField(
+        choices=choices.SCORE_RANKS, default=choices.UNRANKED, max_length=20
+    )
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.student.full_name
+
+    def save(self, *args, **kwargs):
+        total_question = Question.objects.filter(exam_id=self.exam_id).count()
+        score = self.score
+
+        if score >= total_question:
+            self.rank = choices.GOLD
+        elif score >= total_question - 2:
+            self.rank = choices.SILVER
+        elif score >= total_question - 5:
+            self.rank = choices.BRONZE
+        elif score == 0:
+            self.rank = choices.UNRANKED
+
+        super().save(*args, **kwargs)
