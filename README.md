@@ -6,10 +6,19 @@
 
 <p>An online assessment project incorporating various features, specifically designed for the DRF course. This project can enhance your skills in clean code, optimized code, maintainable code, and more.</p>
 
-<h4> <span> · </span> <a href="https://github.com/Django-shop/drf-online-exam-course/blob/master/README.md"> Documentation </a> <span> · </span> <a href="https://github.com/drf-online-exam-course/drf-online-exam-course/issues"> Report Bug </a> <span> · </span> <a href="https://github.com/drf-online-exam-course/drf-online-exam-course/issues"> Request Feature </a> </h4>
+<h4>  <a href="https://github.com/Django-shop/drf-online-exam-course/blob/master/README.md"> Documentation </a> <span> · </span> <a href="https://github.com/drf-online-exam-course/drf-online-exam-course/issues"> Report Bug </a> <span> · </span> <a href="https://github.com/drf-online-exam-course/drf-online-exam-course/issues"> Request Feature </a> <span>.</span> <a href="https://www.youtube.com/playlist?list=PLq3tK5gKk3-11_jwdZ_yB8iqdS1q0OfXS"> YouTube Courses </a>  </h4>
+
+<br>
+<br>
+<hr>
 
 
+###
+<img src=https://github.com/Mohammad222PR/drf-online-exam-course/blob/main/docs/test-Thumbnail.jpg alt="thumbnail" width=400 height=auto style="border-radius: 30px;" />
+
+<p>You can view the course in which this project was completed by clicking <a href="https://www.youtube.com/playlist?list=PLq3tK5gKk3-11_jwdZ_yB8iqdS1q0OfXS">this link</a>. 👨‍🏫</p>
 </div>
+<br>
 
 # :notebook_with_decorative_cover: Table of Contents
 
@@ -42,8 +51,7 @@
 - debug toolbar
 - nested routers
 - throttling
-
-- 
+  
 ## :toolbox: Getting Started
 
 ### :bangbang: Prerequisites
